@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Intrusion Detection System</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+    <script
+      src="https://kit.fontawesome.com/5f3f547070.js"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Website Title -->
+    <div class="container">
+      <h2 class="container-heading">
+        <span class="heading_font">Intrusion Detection System</span>
+      </h2>
+      <div class="description">
+        <p>Made by Ashit Verma,Rishav Raja and Kirubakiran</p>
+      </div>
+    </div>
+    <!-- Text Area -->
+    <div class="ml-container">
+      <form action="{{ url_for('predict')}}" method="POST">
+        <!-- Dropdown for selecting 'flag' -->
+        <label for="flag">Flag</label>
+        <select id="flag" name="flag">
+          <option value="SF">SF</option>
+          <option value="S0">S0</option>
+          <option value="REJ">REJ</option>
+          <option value="SF">RSTR</option>
+          <option value="SF">RSTO</option>
+          <option value="SF">S1</option>
+          <option value="SF">RSTOS0</option>
+          <option value="SF">S3</option>
+          <option value="SF">S2</option>
+          <option value="SF">OTH</option></select
+        ><br />
+        <!-- Hidden input for 'flag_S0' -->
+        <input type="hidden" id="flag_S0" name="flag_S0" value="0" />
+
+        <label for="serror_rate">Serror Rate</label>
+        <input
+          type="text"
+          id="serror_rate"
+          name="serror_rate"
+          placeholder="Serror Rate Value"
+        /><br />
+
+        <label for="diff_srv_rate">Diff Service Rate</label>
+        <input
+          type="text"
+          id="diff_srv_rate"
+          name="diff_srv_rate"
+          placeholder="Diff Service Rate Value"
+        /><br />
+
+        <label for="srv_serror_rate">Server Serror Rate</label>
+        <input
+          type="text"
+          id="srv_serror_rate"
+          name="srv_serror_rate"
+          placeholder="Server Serror Rate Value"
+        /><br />
+
+        <label for="dst_host_serror_rate">Destination Host Serror Rate</label>
+        <input
+          type="text"
+          id="dst_host_serror_rate"
+          name="dst_host_serror_rate"
+          placeholder="Destination Host Serror Rate Value"
+        /><br />
+
+        <label for="dst_host_srv_serror_rate"
+          >Destination Host Server Serror Rate</label
+        >
+        <input
+          type="text"
+          id="dst_host_srv_serror_rate"
+          name="dst_host_srv_serror_rate"
+          placeholder="Destination Host Server Serror Rate Value"
+        /><br />
+
+        <label for="dst_host_diff_srv_rate"
+          >Destination Host Diff Service Rate</label
+        >
+        <input
+          type="text"
+          id="dst_host_diff_srv_rate"
+          name="dst_host_diff_srv_rate"
+          placeholder="Destination Host Diff Service Rate Value"
+        /><br />
+
+        <label for="count">Count</label>
+        <input
+          type="text"
+          id="count"
+          name="count"
+          placeholder="Count Value"
+        /><br />
+
+        <!-- Dropdown for selecting 'service' -->
+        <label for="service">Service</label>
+        <select id="service" name="service">
+          <option value="private">Private</option>
+          <option value="http">HTTP</option>
+          <option value="other">Other</option></select
+        ><br />
+
+        <label for="dst_host_count">Destination Host Count</label>
+        <input
+          type="text"
+          id="dst_host_count"
+          name="dst_host_count"
+          placeholder="Destination Host Count Value"
+        /><br />
+
+        <label for="rerror_rate">Rerror Rate</label>
+        <input
+          type="text"
+          id="rerror_rate"
+          name="rerror_rate"
+          placeholder="Rerror Rate Value"
+        /><br />
+
+        <label for="srv_rerror_rate">Server Rerror Rate</label>
+        <input
+          type="text"
+          id="srv_rerror_rate"
+          name="srv_rerror_rate"
+          placeholder="Server Rerror Rate Value"
+        /><br />
+
+        <label for="dst_host_rerror_rate">Destination Host Rerror Rate</label>
+        <input
+          type="text"
+          id="dst_host_rerror_rate"
+          name="dst_host_rerror_rate"
+          placeholder="Destination Host Rerror Rate Value"
+        /><br />
+
+        <label for="protocol_type">Protocol Type</label>
+        <select id="protocol_type" name="protocol_type">
+          <option value="udp">udp</option>
+          <option value="tcp">tcp</option>
+          <option value="icmp">icmp</option></select
+        ><br />
+
+        <label for="dst_host_srv_rerror_rate"
+          >Destination Host Server Rerror Rate</label
+        >
+        <input
+          type="text"
+          id="dst_host_srv_rerror_rate"
+          name="dst_host_srv_rerror_rate"
+          placeholder="Destination Host Server Rerror Rate Value"
+        /><br />
+
+        <input type="submit" class="my-cta-button" value="Predict" />
+      </form>
+    </div>
+    <!-- Prediction Result -->
+    {% if prediction is defined %}
+    <div class="result-container">
+      <h2>Prediction Result:</h2>
+      {% if prediction == 1 %}
+      <p class="danger">Alert! Network Intrusion Detected.</p>
+      {% elif prediction == 0 %}
+      <p class="safe">No Network Intrusion Detected.</p>
+      {% endif %}
+    </div>
+    {% endif %}
+
+    <script>
+      // JavaScript function to update 'flag_S0' value based on selected 'flag'
+      document.getElementById("flag").addEventListener("change", function () {
+        var flagS0Input = document.getElementById("flag_S0");
+        flagS0Input.value = this.value === "S0" ? "1" : "0";
+      });
+    </script>
+    <!-- Footer -->
+    <div class="footer">
+      <p class="footer-description">
+        Made by Ashit Verma,Rishav Raja and Kirubakiran
+      </p>
+    </div>
+  </body>
+</html>
