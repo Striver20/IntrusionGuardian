@@ -82,6 +82,5 @@ def save_output_data(data, prediction):
         # Optionally, you can add a separator for readability
         file.write("\n")
 
-if __name__ == '__main__':
-	app.run(debug=False,host='0.0.0.0')
+
 
